@@ -1,0 +1,25 @@
+# 遥感影像目标检测系统 (YOLO-OB) 依赖清单
+# 环境搭建请直接运行:  python scripts/setup_env.py
+#
+# 注意: PyTorch 的 CUDA 版 wheel 托管于 download.pytorch.org，不在此文件内由 pip 直接解析，
+#       由 setup_env.py 使用 --index-url 单独安装 (torch==2.5.0+cu124 / torchvision==0.20.0+cu124)。
+
+# --- 深度学习核心 ---
+torch==2.5.0            # 由 setup_env.py 安装 CUDA 版
+torchvision==0.20.0     # 由 setup_env.py 安装 CUDA 版
+ultralytics>=8.3.0      # YOLOv8 / YOLO11 训练与推理
+
+# --- 数据处理 ---
+numpy>=1.24
+opencv-python>=4.8
+Pillow>=10.0
+PyYAML>=6.0
+
+# --- 报告 / 可视化 ---
+matplotlib>=3.9         # 需 >=3.9 以兼容 numpy 2.x
+pandas>=2.2.2           # 需 >=2.2.2 以兼容 numpy 2.x
+
+# --- 配置 / Web ---
+pydantic>=2.5
+streamlit>=1.35
+tqdm>=4.66

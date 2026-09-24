@@ -1,0 +1,40 @@
+# =====================================================================
+# 遥感影像目标检测系统 (YOLO-OB) 全局配置
+# 路径由 rsdet.paths 自动定位项目根目录；此处相对路径均相对项目根。
+# =====================================================================
+
+paths:
+  data_raw: data/raw             # 权威数据集原始下载
+  data_processed: data/processed # 转换后的 YOLO 格式数据
+  runs: runs                     # 训练实验产物
+  weights: weights               # 模型权重
+  reports: reports               # 报告输出
+
+# DIOR 真实遥感检测数据集 (20 类 / 23463 张 / 19 万真实水平框; 官方 train/val/test 划分)
+dataset:
+  dior:
+    root: null                     # null=默认 auto 定位到 "DIOR/OpenDataLab___DIOR/raw/DIOR/DIOR"; 可填绝对路径
+    sample_train_per_class: 16     # 快速训练子集: 每类从 train 抽几张
+    sample_val_per_class: 8        # 快速训练子集: 每类从 val 抽几张
+    seed: 42                       # 抽样随机种子
+
+# 模型训练
+model:
+  name: yolov8n                  # yolov8n / yolov8s / yolo11n ...
+  imgsz: 416                     # 训练输入尺寸
+  epochs: 50                     # 训练默认轮数 (正式训练; CLI --epochs 可覆盖)
+  batch: 8                       # RTX3050 4GB 安全取值
+  device: auto                   # auto / cpu / 0
+  cls_pw: 1.0                    # 类别权重幂次 (缓解类别不平衡; 0=禁用)
+  pretrained: true               # COCO 预训练迁移学习 (离线自动回退从零训练)
+
+# 推理 (大图切片 + 合并 NMS)
+inference:
+  tile_size: 640                 # 切片尺寸
+  overlap: 0.25                  # 相邻切片重叠比例
+  conf: 0.1                      # 置信度阈值 (小目标/弱检测模型建议 0.05~0.15)
+  iou: 0.45                      # NMS IoU 阈值
+
+# 检验自测
+selftest:
+  epochs: 8                      # 快速训练轮数 (抽样训练, 不做达标阈值)
