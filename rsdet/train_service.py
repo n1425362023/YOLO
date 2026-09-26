@@ -101,6 +101,7 @@ def train(cfg: Any, data_yaml: str | Path, out_run_dir: str | Path,
     epochs = epochs if epochs is not None else cfg.get("model.epochs", 5)
     imgsz = imgsz if imgsz is not None else cfg.get("model.imgsz", 320)
     batch = batch if batch is not None else cfg.get("model.batch", 8)
+    workers = int(cfg.get("model.workers", 4))
     cls_pw = cls_pw if cls_pw is not None else cfg.get("model.cls_pw", 1.0)
     pretrained = pretrained if pretrained is not None else cfg.get("model.pretrained", True)
     device = device or cfg.get("model.device", "auto")
@@ -153,6 +154,7 @@ def train(cfg: Any, data_yaml: str | Path, out_run_dir: str | Path,
         epochs=epochs,
         imgsz=imgsz,
         batch=batch,
+        workers=workers,
         device=device,
         project=str(out_run_dir.parent),
         name=out_run_dir.name,

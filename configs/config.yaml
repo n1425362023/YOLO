@@ -24,6 +24,7 @@ model:
   imgsz: 416                     # 训练输入尺寸
   epochs: 50                     # 训练默认轮数 (正式训练; CLI --epochs 可覆盖)
   batch: 8                       # RTX3050 4GB 安全取值
+  workers: 4                     # DataLoader 进程数 (Windows 下过高会挤爆系统内存引发崩溃; 16GB 内存机器建议 <=4)
   device: auto                   # auto / cpu / 0
   cls_pw: 1.0                    # 类别权重幂次 (缓解类别不平衡; 0=禁用)
   pretrained: true               # COCO 预训练迁移学习 (离线自动回退从零训练)
