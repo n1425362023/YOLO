@@ -43,6 +43,19 @@ def _load_model(weights: str):
     return load_model(weights)
 
 
+def _img_to_b64_jpeg(img_bgr: np.ndarray, max_edge: int = 1600, quality: int = 90) -> str:
+    """cv2 图像 (BGR) -> 缩放 -> JPEG base64, 用于内嵌进 HTML 报告 (控制文件体积)。"""
+    h, w = img_bgr.shape[:2]
+    if max(h, w) > max_edge:
+        scale = max_edge / max(h, w)
+        img_bgr = cv2.resize(img_bgr, (int(w * scale), int(h * scale)),
+                             interpolation=cv2.INTER_AREA)
+    ok, buf = cv2.imencode(".jpg", img_bgr, [cv2.IMWRITE_JPEG_QUALITY, quality])
+    if not ok:
+        raise ValueError("图像 JPEG 编码失败")
+    return base64.b64encode(buf).decode("ascii")
+
+
 def main() -> None:
     st.title("🛰️ 遥感影像目标检测系统 (YOLO-OB)")
     st.caption("大图切片推理 · 合并 NMS · 密度热力图 · 统计分析")
@@ -146,7 +159,9 @@ def main() -> None:
                                  [("统计", "".join(summary_rows)),
                                   ("参数", f"conf={conf}, iou={iou}, 切片={tile_size}, "
                                            f"重叠={overlap}, 耗时={r['elapsed_ms']:.0f}ms")],
-                                 [("密度热力图", b64)])
+                                 [("原图", _img_to_b64_jpeg(img)),
+                                  ("检测结果", _img_to_b64_jpeg(r["annotated"])),
+                                  ("密度热力图", b64)])
         st.download_button("下载 HTML 报告", html.read_bytes(),
                            file_name="检测报告.html", mime="text/html")
 

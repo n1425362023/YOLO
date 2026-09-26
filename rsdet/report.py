@@ -104,11 +104,12 @@ def write_html_report(out_path: str | Path, title: str, sections: list[tuple[str
         body_parts.append(f"<h2>{heading}</h2>\n{content}")
     if figures:
         body_parts.append("<h2>图表</h2>")
-        for caption, b64 in figures:
-            body_parts.append(
-                f"<figure><img src='data:image/png;base64,{b64}' "
-                f"style='max-width:100%'/><figcaption>{caption}</figcaption></figure>"
-            )
+        figures_html = "".join(
+            f"<figure><img src='data:image/png;base64,{b64}' "
+            f"style='max-width:100%'/><figcaption>{caption}</figcaption></figure>"
+            for caption, b64 in figures
+        )
+        body_parts.append(f"<div class='figure-row'>{figures_html}</div>")
 
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -122,7 +123,8 @@ def write_html_report(out_path: str | Path, title: str, sections: list[tuple[str
  table {{ border-collapse: collapse; margin: 12px 0; }}
  th, td {{ border: 1px solid #ccc; padding: 6px 12px; text-align: left; }}
  th {{ background: #f0f4f8; }}
- figure {{ margin: 16px 0; text-align: center; }}
+ .figure-row {{ display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: flex-start; }}
+ figure {{ margin: 0; flex: 1 1 300px; min-width: 200px; text-align: center; }}
  figcaption {{ color: #666; font-size: 13px; margin-top: 4px; }}
 </style>
 </head>
