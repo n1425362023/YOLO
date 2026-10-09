@@ -10,9 +10,10 @@ data/processed/
 # 训练/推理产物 (每次运行重新生成)
 # =============================================================
 runs/
-weights/
+weights/*
 reports/
 *.pt
+!weights/best.pt
 *.onnx
 *.engine
 *.png
