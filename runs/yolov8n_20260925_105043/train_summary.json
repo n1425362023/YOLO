@@ -1,0 +1,26 @@
+{
+  "model": "yolov8n",
+  "data": "data/processed/dior/data.yaml",
+  "epochs": 300,
+  "imgsz": 640,
+  "batch": 16,
+  "device": "0",
+  "cls_pw": 1.0,
+  "pretrained": true,
+  "from_scratch": true,
+  "resume": false,
+  "best_weight": "D:\\YOLO\\runs\\yolov8n_20260925_105043\\weights\\best.pt",
+  "mAP50": 0.7812263560798075,
+  "mAP50_95": 0.5831134838665929,
+  "precision": 0.8796395841363758,
+  "recall": 0.7256356230113593,
+  "metrics_raw": {
+    "metrics/precision(B)": 0.8796395841363758,
+    "metrics/recall(B)": 0.7256356230113593,
+    "metrics/mAP50(B)": 0.7812263560798075,
+    "metrics/mAP50-95(B)": 0.5831134838665929
+  },
+  "finished_at": "2026-09-26 02:47:30",
+  "archived_weight": "D:\\YOLO\\runs\\yolov8n_20260925_105043\\best_yolov8n_20260926_024730.pt",
+  "stable_weight": "D:\\YOLO\\weights\\best.pt"
+}
